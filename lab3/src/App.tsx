@@ -6,7 +6,6 @@ import { Button, Card, TextField } from "@mui/material";
 import ActionAreaCard from "./components/card";
 
 const temparray = [1, 2, 3];
-
 function App() {
   const [nume, setNume] = useState<string>();
   const [prenume, setPrenume] = useState<string>();
@@ -68,19 +67,19 @@ function App() {
                 setGrupa(event.target.value);
               }}
             />
-            <Button type="submit" variant="contained">
+
+            <Button className="buton" type="submit" variant="contained">
               Transmite
             </Button>
           </form>
-          <div>
-            <span>Nume:{nume} </span>
-          </div>
-          <div>
-            <span>Prenume:{prenume}</span>
-          </div>
-          <div>
-            <span>Grupa:{grupa}</span>
-          </div>
+          <Card
+            title="Info:"
+            style={{ top: 500, left: 500, width: 300, marginTop: "20px" }}
+          >
+            <p>Nume: {nume}</p>
+            <p>Prenume: {prenume}</p>
+            <p>Grupa: {grupa}</p>
+          </Card>
         </div>
       </main>
     </div>
