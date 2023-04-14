@@ -1,81 +1,95 @@
-body {
-  background-color: #817d7d;
-}
-
-.container {
-  background-color: #f2f2f2;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-}
 .container {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  background-color: #f0f0f0;
 }
 
 .title {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: bold;
   margin-bottom: 20px;
-  text-align: center;
+  color: #006633;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .input {
+  margin-bottom: 10px;
   padding: 10px;
   font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #e0e0e0;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  background-color: #009966;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn-edit {
+  margin-right: 10px;
+  background-color: #006699;
+}
+
+.btn-delete {
+  background-color: #cc3300;
+}
+
+.loading {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #006633;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
   margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
 }
 
-.button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #4285f4;
+thead {
+  background-color: #006633;
   color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
-.button:hover {
-  background-color: #2c5aa8;
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+th:first-child,
+td:first-child {
+  min-width: 150px;
 }
 
-.object {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+th:last-child,
+td:last-child {
+  min-width: 150px;
 }
 
-.object p {
-  margin-bottom: 10px;
-}
-
-.object button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #ff3b3b;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-.object button:hover {
-  background-color: #d11919;
+.btn:focus,
+.btn:hover,
+.btn-edit:focus,
+.btn-edit:hover,
+.btn-delete:focus,
+.btn-delete:hover {
+  background-color: #004d66;
 }

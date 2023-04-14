@@ -13,12 +13,14 @@ function MyComponent() {
     varsta: "",
     diriginte: "",
   });
+  const [isEditing, setIsEditing] = useState(false);
+  const [editIndex, setEditIndex] = useState(-1);
 
   // folosim datele din MobX store
   const myData = store.myData;
 
   // refresh la date
-  // adaugam un obiect nou  la MobX store
+  // adaugam un obiect nou la MobX store sau actualizam unul existent
   const handleAddObject = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (
@@ -31,17 +33,29 @@ function MyComponent() {
       alert("Introduceti toate campurile.");
       return;
     }
-    store.addObject(localData);
-    setLocalData({
-      nume: "",
-      prenume: "",
-      clasa: "",
-      varsta: "",
-      diriginte: "",
-    });
+
+    setLocalData({ ...localData, isLoading: true });
+
+    setTimeout(() => {
+      if (isEditing) {
+        store.editObject(editIndex, localData);
+        setIsEditing(false);
+        setEditIndex(-1);
+      } else {
+        store.addObject(localData);
+      }
+      setLocalData({
+        nume: "",
+        prenume: "",
+        clasa: "",
+        varsta: "",
+        diriginte: "",
+        isLoading: false, // hide loading state
+      });
+    }, 2000);
   };
 
-  // stergem obiectul din MobX store si  facem update la  local state
+  // stergem obiectul din MobX store si facem update la local state
   const handleDeleteObject = (index: number) => {
     store.deleteObject(index);
     setLocalData({
@@ -51,6 +65,16 @@ function MyComponent() {
       varsta: "",
       diriginte: "",
     });
+    setIsEditing(false);
+    setEditIndex(-1);
+  };
+
+  // editam obiectul din MobX store si facem update la local state
+  const handleEditObject = (index: number) => {
+    const objToEdit = myData[index];
+    setLocalData(objToEdit);
+    setIsEditing(true);
+    setEditIndex(index);
   };
 
   return (
@@ -100,26 +124,62 @@ function MyComponent() {
             setLocalData({ ...localData, diriginte: e.target.value })
           }
         />
-        <button className="button" type="submit">
-          Trimite
+        <button className="btn" type="submit">
+          {isEditing ? "Actualizeaza" : "Adauga"}
         </button>
+        {localData.isLoading && <div className="loading">Se proceseaza...</div>}
       </form>
-      <div>
-        <div className="grid">
-          {myData.map((data: any, index: number) => (
-            <div key={index} className="object">
-              <p>Nume: {data.nume}</p>
-              <p>Prenume: {data.prenume}</p>
-              <p>Clasa: {data.clasa}</p>
-              <p>Varsta: {data.varsta}</p>
-              <p>Diriginte: {data.diriginte}</p>
-              <button onClick={() => handleDeleteObject(index)}>Delete</button>
-            </div>
-          ))}
-        </div>
+      <div className="table-container">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Nume</th>
+              <th>Prenume</th>
+              <th>Clasa</th>
+              <th>Varsta</th>
+              <th>Diriginte</th>
+              <th>Actiuni</th>
+            </tr>
+          </thead>
+          <tbody>
+            {myData.map(
+              (
+                data: {
+                  nume: string;
+                  prenume: string;
+                  clasa: string;
+                  varsta: string;
+                  diriginte: string;
+                },
+                index: number
+              ) => (
+                <tr key={index}>
+                  <td>{data.nume}</td>
+                  <td>{data.prenume}</td>
+                  <td>{data.clasa}</td>
+                  <td>{data.varsta}</td>
+                  <td>{data.diriginte}</td>
+                  <td>
+                    <button
+                      className="btn btn-edit"
+                      onClick={() => handleEditObject(index)}
+                    >
+                      Editeaza
+                    </button>
+                    <button
+                      className="btn btn-delete"
+                      onClick={() => handleDeleteObject(index)}
+                    >
+                      Sterge
+                    </button>
+                  </td>
+                </tr>
+              )
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );
 }
-
 export default MyComponent;
