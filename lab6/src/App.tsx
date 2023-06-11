@@ -1,85 +1,69 @@
-import React, { useState, useEffect } from "react";
+import "./App.css";
+import AdvancedUser from "./domain/AdvancedUser";
 
-const userInitial = [
-  { username: "admin", password: "admin" },
-  { username: "testadmin", password: "admintest" },
-  { username: "user", password: "password" },
-];
-
-const App = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [users, setUsers] = useState(userInitial);
-
-  useEffect(() => {
-    const storedUsers = localStorage.getItem("users");
-    if (storedUsers) {
-      setUsers([...users, ...JSON.parse(storedUsers)]);
-    }
-  }, [users]);
-
-  const handleLogin = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    const foundUser = users.find(
-      (user) => user.username === username && user.password === password
-    );
-    if (foundUser) {
-      setIsAuthenticated(true);
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("user", JSON.stringify(foundUser));
-      alert("Welcome, Milord");
-    } else {
-      alert("Who are you?");
-    }
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    localStorage.setItem("isAuthenticated", "false");
-    alert("Goodbye");
-  };
-
-  const renderLoginForm = () => {
-    return (
-      <form onSubmit={handleLogin}>
-        <label>
-          Username:
-          <input
-            type="text"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </label>
-        <br />
-        <button type="submit">Sign In</button>
-      </form>
-    );
-  };
-
-  const renderLogoutButton = () => {
-    const storedUser = localStorage.getItem("user");
-    const loggedInUser = storedUser ? JSON.parse(storedUser) : null;
-    return (
-      <div>
-        {loggedInUser && <p>User : {loggedInUser.username}</p>}
-        <button onClick={handleLogout}>Logout</button>
-      </div>
-    );
-  };
-
-  return (
-    <div>{isAuthenticated ? renderLogoutButton() : renderLoginForm()}</div>
-  );
+const user1: AdvancedUser = {
+  name: "Roman",
+  surname: "Visterniceanu",
+  mail: "roman.visterniceanu@iis.utm.md",
+  group: "CR-212",
+  isOnline: true,
+  age: 21,
+  status: "student",
 };
 
-export default App;
+const user2: AdvancedUser = {
+  name: "Daniel",
+  surname: "Rata",
+  mail: "daniel.rata@iis.utm.md",
+  group: "CR-221",
+  isOnline: false,
+  age: 20,
+  status: "student",
+};
+
+function Card({ user }: { user: AdvancedUser }) {
+  return (
+    <div className="card">
+      <p>
+        <span className="label">Nume: </span>
+        <span className="value">{user.name}</span>
+      </p>{" "}
+      <p>
+        <span className="label">Prenume: </span>
+        <span className="value">{user.surname}</span>
+      </p>
+      <p>
+        <span className="label">E-mail: </span>
+        <span className="value">{user.mail}</span>
+      </p>
+      <p>
+        <span className="label">Grupa: </span>
+        <span className="value">{user.group}</span>
+      </p>
+      <p>
+        <span className="label">OnlineStatus: </span>
+        <span className="value">{user.isOnline.toString()}</span>
+      </p>
+      <p>
+        <span className="label">Virsta: </span>
+        <span className="value">{user.age}</span>
+      </p>
+      <p>
+        <span className="label">Statut: </span>
+        <span className="value">{user.status}</span>
+      </p>
+    </div>
+  );
+}
+
+function Lab4() {
+  return (
+    <div className="container">
+      <h1 className="title">Date Personale</h1>
+      <Card user={user1} />
+      <Card user={user2} />
+    </div>
+  );
+}
+
+export default Lab4;
